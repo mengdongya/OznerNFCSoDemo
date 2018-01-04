@@ -1,0 +1,63 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+//        applicationId "com.ozner.nfc"
+        minSdkVersion 18
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+
+        android {
+            lintOptions {
+                abortOnError false
+            }
+        }
+
+        ndk {
+            moduleName "ozner_nfc"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
+}
+
+task makeJar(type: proguard.gradle.ProGuardTask, dependsOn: "build") {
+    // 未混淆的jar路径
+    injars 'build/intermediates/bundles/default/classes.jar'
+    // 混淆后的jar输出路径
+    outjars 'build/libs/mysdk2.jar'
+    // 混淆协议
+    configuration 'proguard-rules.pro'
+}
+
+makeJar.dependsOn(build)

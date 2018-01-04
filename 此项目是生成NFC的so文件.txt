@@ -1,0 +1,5 @@
+build->make module "oznernfc"生成so文件
+
+生成的so文件路径：D:\Demo\OznerNFCSoDemo\oznernfc\build\intermediates\cmake\release
+
+jar包生成路径：D:\Demo\OznerNFCSoDemo\oznernfc\build\intermediates\bundles\default
